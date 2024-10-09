@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
+import { DashComponent } from './dash/dash.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AuthInterceptor } from './login/auth/auth.interceptor';
     AppComponent,
     HomeComponent,
     AboutComponent,
-    LoginComponent
+    LoginComponent,
+    DashComponent
   ],
   imports: [
     BrowserModule,
