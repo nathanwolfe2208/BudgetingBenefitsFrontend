@@ -27,7 +27,7 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
       () => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/dash']);
       },
       error => {
         this.error = 'Login failed';

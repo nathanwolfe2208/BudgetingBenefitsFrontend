@@ -5,6 +5,11 @@ import { firstValueFrom, Observable } from 'rxjs';
 export interface User {
   id: number;
   name: string;
+  monthlyInc: MonthlyIncome;
+}
+
+export interface MonthlyIncome {
+  [key: string]: number;
 }
 
 
