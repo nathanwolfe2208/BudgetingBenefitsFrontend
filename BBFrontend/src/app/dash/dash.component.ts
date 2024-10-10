@@ -19,8 +19,8 @@ export class DashComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
       
-      const userId = localStorage.getItem('id');
-      const token = localStorage.getItem('access_token');
+      const userId = sessionStorage.getItem('id');
+      const token = sessionStorage.getItem('access_token');
       if(token && userId){
         this.user = await this.userService.getUserById(Number(userId), token);
         console.log(this.user);
@@ -31,6 +31,10 @@ export class DashComponent implements OnInit{
         
       }
         
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }
