@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { DashComponent } from './dash/dash.component';
+import { IncomeTrackerComponent } from './income-tracker/income-tracker.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DashComponent } from './dash/dash.component';
     HomeComponent,
     AboutComponent,
     LoginComponent,
-    DashComponent
+    DashComponent,
+    IncomeTrackerComponent
   ],
   imports: [
     BrowserModule,
