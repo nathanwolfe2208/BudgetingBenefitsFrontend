@@ -1,0 +1,72 @@
+<div class="min-h-screen bg-gray-100">
+    <nav class="bg-blue-600 p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-white text-2xl font-bold">BudgetingBenefits</h1>
+        <button class="text-white hover:text-blue-200">Logout</button>
+      </div>
+    </nav>
+  
+    <div class="container mx-auto p-6">
+      <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-blue-800 mb-2">Manage Monthly Income</h2>
+        <p class="text-gray-600">Select the month and enter your budget fields below.</p>
+        
+        <label for="month" class="block text-gray-700 mt-4 mb-2">Select Month:</label>
+        <select [(ngModel)]="selectedMonth" id="month" class="border border-gray-300 p-2 rounded w-full mb-4">
+          <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+        </select>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <div class="bg-white rounded-lg shadow-2xl p-6">
+            <h3 class="text-lg font-semibold text-blue-800 mb-2">Current Income</h3>
+            <p class="text-3xl font-bold text-blue-600">${{ currentIncome }}</p>
+          </div>
+  
+          <div class="bg-white rounded-lg shadow-2xl p-6">
+            <h3 class="text-lg font-semibold text-blue-800 mb-2">Recommended Budget</h3>
+            <p class="text-3xl font-bold text-green-600">${{ recommendedBudget }}</p>
+          </div>
+  
+          <div class="bg-white rounded-lg shadow-2xl p-6">
+            <h3 class="text-lg font-semibold text-blue-800 mb-2">Savings</h3>
+            <p class="text-3xl font-bold text-orange-600">${{ currentSavings }}</p>
+          </div>
+  
+          <div class="bg-white rounded-lg shadow-2xl p-6">
+            <h3 class="text-lg font-semibold text-blue-800 mb-2">Remaining Budget</h3>
+            <p class="text-3xl font-bold text-red-600">${{ remainingBudget }}</p>
+          </div>
+        </div>
+  
+        <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-800 mb-2">Enter Your Budget Fields</h3>
+          <div *ngFor="let field of budgetFields; let i = index" class="mb-4">
+            <label class="block text-gray-700 mb-1">{{ field.name }}:</label>
+            <input type="text" [(ngModel)]="field.estimatedExpense" placeholder="Estimated amount" class="border border-gray-300 p-2 rounded w-full mb-2" />
+            <input type="text" [(ngModel)]="field.actualExpense" placeholder="Actual amount spent" class="border border-gray-300 p-2 rounded w-full" />
+          </div>
+  
+          <button (click)="addBudgetField()" class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 transition duration-300 shadow-md mb-4">
+            Add Another Field
+          </button>
+  
+          <div class="mt-4">
+            <h3 class="text-lg font-semibold text-blue-800 mb-2">Savings Management</h3>
+            <input type="number" [(ngModel)]="additionalSavings" placeholder="Add to savings" class="border border-gray-300 p-2 rounded w-full mb-2" />
+            <button (click)="addToSavings()" class="bg-green-500 hover:bg-green-600 text-white rounded-lg p-2 transition duration-300 shadow-md mb-4">
+              Add to Savings
+            </button>
+            <input type="number" [(ngModel)]="dipIntoSavingsAmount" placeholder="Dip into savings" class="border border-gray-300 p-2 rounded w-full mb-2" />
+            <button (click)="dipIntoSavings()" class="bg-red-500 hover:bg-red-600 text-white rounded-lg p-2 transition duration-300 shadow-md mb-4">
+              Dip into Savings
+            </button>
+          </div>
+  
+          <button (click)="submitBudget()" class="bg-green-500 hover:bg-green-600 text-white rounded-lg p-2 transition duration-300 shadow-md">
+            Submit Budget
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
