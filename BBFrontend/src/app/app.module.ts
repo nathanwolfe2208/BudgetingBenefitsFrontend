@@ -9,12 +9,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // Import For
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { DashComponent } from './dash/dash.component';
-<<<<<<< Updated upstream
 import { IncomeTrackerComponent } from './income-tracker/income-tracker.component';
-
-=======
 import { ManageIncomeComponent } from './manage-income/manage-income.component';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -23,11 +19,8 @@ import { ManageIncomeComponent } from './manage-income/manage-income.component';
     AboutComponent,
     LoginComponent,
     DashComponent,
-<<<<<<< Updated upstream
-    IncomeTrackerComponent
-=======
+    IncomeTrackerComponent,
     ManageIncomeComponent
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
