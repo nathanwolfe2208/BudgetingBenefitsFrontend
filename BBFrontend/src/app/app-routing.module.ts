@@ -9,9 +9,9 @@ import { IncomeTrackerComponent } from './income-tracker/income-tracker.componen
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: '', component: LoginComponent},
-  { path: 'dash', component: DashComponent},
-  { path: 'inc', component: IncomeTrackerComponent}
+  { path: 'login', component: LoginComponent },  // Update the path to login
+  { path: 'dash', component: DashComponent },
+  { path: 'inc', component: IncomeTrackerComponent }
 ];
 
 @NgModule({

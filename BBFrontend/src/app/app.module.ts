@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -11,7 +11,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { DashComponent } from './dash/dash.component';
 import { IncomeTrackerComponent } from './income-tracker/income-tracker.component';
-
 
 @NgModule({
   declarations: [
@@ -25,11 +24,13 @@ import { IncomeTrackerComponent } from './income-tracker/income-tracker.componen
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,  // Add FormsModule here
     ReactiveFormsModule,
     HttpClientModule  
   ],
   providers: [
-    provideClientHydration(), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    provideClientHydration(),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
