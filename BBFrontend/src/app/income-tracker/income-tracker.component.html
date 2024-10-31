@@ -1,43 +1,42 @@
 <div class="min-h-screen bg-gray-100">
-    <nav class="bg-blue-600 p-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-white text-2xl font-bold">BudgetingBenefits</h1>
-        <button class="text-white hover:text-blue-200" (click)="logout()">Logout</button>
-      </div>
-    </nav>
+  <nav class="bg-blue-600 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-white text-2xl font-bold">BudgetingBenefits</h1>
+      <button class="text-white hover:text-blue-200" (click)="logout()">Logout</button>
+    </div>
+  </nav>
 
-    <div class="container mx-auto p-6">
-        <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
-          <h2 class="text-2xl font-semibold text-blue-800 mb-2">Monthly Income: ${{ currentInc }}</h2>
-          <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editIncome()">Edit</button>
+  <div class="container mx-auto p-6">
+      <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
+        <h2 class="text-2xl font-semibold text-blue-800 mb-2">Monthly Income: ${{ currentInc }}</h2>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editIncome()">Edit</button>
+        <h3 class="text-xl font-semibold text-green-600 mt-4">Remaining Budget: ${{ remainingBudget }}</h3>
+      </div>
+    
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-2xl p-6">
+          <h3 class="text-lg font-semibold text-blue-800 mb-2">Food Allocation</h3>
+          <p class="text-2xl font-bold text-blue-600">$ {{ foodAllocation }}</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editFoodAllocation()">Edit</button>
         </div>
-      
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
-          <!-- Graphs will go here -->
-          <div class="bg-white rounded-lg shadow-2xl p-6">
-            <h3 class="text-lg font-semibold text-blue-800 mb-2">Food Allocation</h3>
-            <p class="text-2xl font-bold text-blue-600">$ {{ foodAllocation }}</p>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editFoodAllocation()">Edit</button>
-          </div>
-      
-          <div class="bg-white rounded-lg shadow-2xl p-6">
-            <h3 class="text-lg font-semibold text-blue-800 mb-2">Rent Allocation</h3>
-            <p class="text-2xl font-bold text-blue-600">$ {{ rentAllocation }}</p>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editRentAllocation()">Edit</button>
-          </div>
-      
-          <div class="bg-white rounded-lg shadow-2xl p-6">
-            <h3 class="text-lg font-semibold text-blue-800 mb-2">Bills Allocation</h3>
-            <p class="text-2xl font-bold text-blue-600">$ {{ billsAllocation }}</p>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editBillsAllocation()">Edit</button>
-          </div>
-      
-          <div class="bg-white rounded-lg shadow-2xl p-6">
-            <h3 class="text-lg font-semibold text-blue-800 mb-2">Other Allocation</h3>
-            <p class="text-2xl font-bold text-blue-600">$ {{ otherAllocation }}</p>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editOtherAllocation()">Edit</button>
-          </div>
+    
+        <div class="bg-white rounded-lg shadow-2xl p-6">
+          <h3 class="text-lg font-semibold text-blue-800 mb-2">Rent Allocation</h3>
+          <p class="text-2xl font-bold text-blue-600">$ {{ rentAllocation }}</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editRentAllocation()">Edit</button>
+        </div>
+    
+        <div class="bg-white rounded-lg shadow-2xl p-6">
+          <h3 class="text-lg font-semibold text-blue-800 mb-2">Bills Allocation</h3>
+          <p class="text-2xl font-bold text-blue-600">$ {{ billsAllocation }}</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editBillsAllocation()">Edit</button>
+        </div>
+    
+        <div class="bg-white rounded-lg shadow-2xl p-6">
+          <h3 class="text-lg font-semibold text-blue-800 mb-2">Other Allocation</h3>
+          <p class="text-2xl font-bold text-blue-600">$ {{ otherAllocation }}</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="editOtherAllocation()">Edit</button>
         </div>
       </div>
-
+  </div>
 </div>
