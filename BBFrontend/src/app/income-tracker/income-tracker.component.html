@@ -65,3 +65,14 @@
   </div>
 </div>
 
+<!-- Food Allocation Input -->
+<input type="number" [(ngModel)]="foodAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+
+<!-- Rent Allocation Input -->
+<input type="number" [(ngModel)]="rentAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+
+<!-- Bills Allocation Input -->
+<input type="number" [(ngModel)]="billsAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+
+<!-- Other Allocation Input -->
+<input type="number" [(ngModel)]="otherAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />

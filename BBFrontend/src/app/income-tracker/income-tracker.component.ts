@@ -16,94 +16,81 @@ export class IncomeTrackerComponent {
     'January', 'February', 'March', 'April', 'May', 'June', 
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-  years: number[] = [2023, 2024, 2025]; // Add more years as needed
-  selectedMonth: string = this.months[new Date().getMonth()]; // Default to current month
-  selectedYear: number = new Date().getFullYear(); // Default to current year
+  years: number[] = [2023, 2024, 2025];
+  selectedMonth: string = this.months[new Date().getMonth()];
+  selectedYear: number = new Date().getFullYear();
 
-  tempIncome: number = this.currentInc;
-  tempFoodAllocation: number = this.foodAllocation;
-  tempRentAllocation: number = this.rentAllocation;
-  tempBillsAllocation: number = this.billsAllocation;
-  tempOtherAllocation: number = this.otherAllocation;
-
-  isEditingFood: boolean = false;
-  isEditingRent: boolean = false;
-  isEditingBills: boolean = false;
-  isEditingOther: boolean = false;
+  // Store allocations by month-year key
+  budgetAllocations: { [key: string]: { food: number; rent: number; bills: number; other: number } } = {};
+  previousKey: string | null = null;
 
   constructor() {}
 
+  // Get unique key for the month and year
+  getMonthYearKey(): string {
+    return `${this.selectedMonth}-${this.selectedYear}`;
+  }
+
+  // Reset allocations and load any saved data for the month
   resetAllocations() {
-    // Reset allocations to zero
-    this.foodAllocation = 0;
-    this.rentAllocation = 0;
-    this.billsAllocation = 0;
-    this.otherAllocation = 0;
-    // Optionally reset the currentInc if you have different budgets for different months
-    // this.currentInc = this.getMonthlyBudget(this.selectedMonth, this.selectedYear);
-  }
-  get remainingBudget(): number {
-    return this.currentInc - (this.foodAllocation + this.rentAllocation + this.billsAllocation + this.otherAllocation);
+    if (this.previousKey) {
+      this.saveAllocations();
+    }
+    
+    const key = this.getMonthYearKey();
+    this.previousKey = key;  // Update the previous key
+
+    if (this.budgetAllocations[key]) {
+      const savedAllocations = this.budgetAllocations[key];
+      this.foodAllocation = savedAllocations.food;
+      this.rentAllocation = savedAllocations.rent;
+      this.billsAllocation = savedAllocations.bills;
+      this.otherAllocation = savedAllocations.other;
+    } else {
+      // Default allocations if no saved data
+      this.foodAllocation = 0;
+      this.rentAllocation = 0;
+      this.billsAllocation = 0;
+      this.otherAllocation = 0;
+    }
   }
 
-  getMonthlyBudget(month: string, year: number): number {
-    // Implement logic to retrieve the preset budget for the selected month and year
-    return 1000; // Placeholder, adjust accordingly
+  saveAllocations() {
+    const key = this.getMonthYearKey();
+    this.budgetAllocations[key] = {
+      food: this.foodAllocation,
+      rent: this.rentAllocation,
+      bills: this.billsAllocation,
+      other: this.otherAllocation
+    };
   }
 
-  updateIncome() {
-    this.currentInc = this.tempIncome;
-  }
-
+  // Update methods for each allocation, calling saveAllocations
   updateFoodAllocation() {
     this.foodAllocation = this.tempFoodAllocation;
     this.isEditingFood = false;
+    this.saveAllocations();
   }
 
   updateRentAllocation() {
     this.rentAllocation = this.tempRentAllocation;
     this.isEditingRent = false;
+    this.saveAllocations();
   }
 
   updateBillsAllocation() {
     this.billsAllocation = this.tempBillsAllocation;
     this.isEditingBills = false;
+    this.saveAllocations();
   }
 
   updateOtherAllocation() {
     this.otherAllocation = this.tempOtherAllocation;
     this.isEditingOther = false;
+    this.saveAllocations();
   }
 
-  logout() {
-    // Placeholder logout functionality
-  }
-
-  editFoodAllocation() {
-    this.isEditingFood = !this.isEditingFood;
-    if (this.isEditingFood) {
-      this.tempFoodAllocation = this.foodAllocation;
-    }
-  }
-
-  editRentAllocation() {
-    this.isEditingRent = !this.isEditingRent;
-    if (this.isEditingRent) {
-      this.tempRentAllocation = this.rentAllocation;
-    }
-  }
-
-  editBillsAllocation() {
-    this.isEditingBills = !this.isEditingBills;
-    if (this.isEditingBills) {
-      this.tempBillsAllocation = this.billsAllocation;
-    }
-  }
-
-  editOtherAllocation() {
-    this.isEditingOther = !this.isEditingOther;
-    if (this.isEditingOther) {
-      this.tempOtherAllocation = this.otherAllocation;
-    }
+  get remainingBudget(): number {
+    return this.currentInc - (this.foodAllocation + this.rentAllocation + this.billsAllocation + this.otherAllocation);
   }
 }
