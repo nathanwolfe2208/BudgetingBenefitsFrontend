@@ -12,6 +12,18 @@ export class IncomeTrackerComponent {
   billsAllocation: number = 0;
   otherAllocation: number = 0;
 
+  // Temporary values for editing allocations
+  tempFoodAllocation: number = 0;
+  tempRentAllocation: number = 0;
+  tempBillsAllocation: number = 0;
+  tempOtherAllocation: number = 0;
+
+  // Flags for edit mode
+  isEditingFood: boolean = false;
+  isEditingRent: boolean = false;
+  isEditingBills: boolean = false;
+  isEditingOther: boolean = false;
+
   months: string[] = [
     'January', 'February', 'March', 'April', 'May', 'June', 
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -53,6 +65,12 @@ export class IncomeTrackerComponent {
       this.billsAllocation = 0;
       this.otherAllocation = 0;
     }
+
+    // Reset temporary allocations
+    this.tempFoodAllocation = this.foodAllocation;
+    this.tempRentAllocation = this.rentAllocation;
+    this.tempBillsAllocation = this.billsAllocation;
+    this.tempOtherAllocation = this.otherAllocation;
   }
 
   saveAllocations() {
@@ -63,6 +81,27 @@ export class IncomeTrackerComponent {
       bills: this.billsAllocation,
       other: this.otherAllocation
     };
+  }
+
+  // Edit methods for toggling edit mode for each allocation
+  editFoodAllocation() {
+    this.isEditingFood = true;
+    this.tempFoodAllocation = this.foodAllocation;
+  }
+
+  editRentAllocation() {
+    this.isEditingRent = true;
+    this.tempRentAllocation = this.rentAllocation;
+  }
+
+  editBillsAllocation() {
+    this.isEditingBills = true;
+    this.tempBillsAllocation = this.billsAllocation;
+  }
+
+  editOtherAllocation() {
+    this.isEditingOther = true;
+    this.tempOtherAllocation = this.otherAllocation;
   }
 
   // Update methods for each allocation, calling saveAllocations
@@ -92,5 +131,10 @@ export class IncomeTrackerComponent {
 
   get remainingBudget(): number {
     return this.currentInc - (this.foodAllocation + this.rentAllocation + this.billsAllocation + this.otherAllocation);
+  }
+
+  // Stub for the logout function
+  logout() {
+    console.log("Logged out");
   }
 }

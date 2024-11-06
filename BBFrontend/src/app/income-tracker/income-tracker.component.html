@@ -65,14 +65,47 @@
   </div>
 </div>
 
-<!-- Food Allocation Input -->
-<input type="number" [(ngModel)]="foodAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+<div class="p-4">
+  <!-- Logout button -->
+  <button class="text-white hover:text-blue-200" (click)="logout()">Logout</button>
 
-<!-- Rent Allocation Input -->
-<input type="number" [(ngModel)]="rentAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+  <!-- Food allocation field -->
+  <div class="mb-4">
+    <label>Food Allocation:</label>
+    <input *ngIf="isEditingFood" type="number" [(ngModel)]="tempFoodAllocation" class="border p-2" />
+    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
+            (click)="isEditingFood ? updateFoodAllocation() : editFoodAllocation()">
+      {{ isEditingFood ? 'Save' : 'Edit' }}
+    </button>
+  </div>
 
-<!-- Bills Allocation Input -->
-<input type="number" [(ngModel)]="billsAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+  <!-- Rent allocation field -->
+  <div class="mb-4">
+    <label>Rent Allocation:</label>
+    <input *ngIf="isEditingRent" type="number" [(ngModel)]="tempRentAllocation" class="border p-2" />
+    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
+            (click)="isEditingRent ? updateRentAllocation() : editRentAllocation()">
+      {{ isEditingRent ? 'Save' : 'Edit' }}
+    </button>
+  </div>
 
-<!-- Other Allocation Input -->
-<input type="number" [(ngModel)]="otherAllocation" (ngModelChange)="saveAllocations()" class="border p-2" />
+  <!-- Bills allocation field -->
+  <div class="mb-4">
+    <label>Bills Allocation:</label>
+    <input *ngIf="isEditingBills" type="number" [(ngModel)]="tempBillsAllocation" class="border p-2" />
+    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
+            (click)="isEditingBills ? updateBillsAllocation() : editBillsAllocation()">
+      {{ isEditingBills ? 'Save' : 'Edit' }}
+    </button>
+  </div>
+
+  <!-- Other allocation field -->
+  <div class="mb-4">
+    <label>Other Allocation:</label>
+    <input *ngIf="isEditingOther" type="number" [(ngModel)]="tempOtherAllocation" class="border p-2" />
+    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
+            (click)="isEditingOther ? updateOtherAllocation() : editOtherAllocation()">
+      {{ isEditingOther ? 'Save' : 'Edit' }}
+    </button>
+  </div>
+</div>
