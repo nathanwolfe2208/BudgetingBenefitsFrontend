@@ -1,27 +1,54 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-income-tracker',
   templateUrl: './income-tracker.component.html',
-  styleUrl: './income-tracker.component.css'
+  styleUrls: ['./income-tracker.component.css']
 })
-export class IncomeTrackerComponent {
+export class IncomeTrackerComponent implements OnInit {
+  // Mock data for current income
+  currentInc: number = 5000;
 
+  // Mock allocations for different categories
+  foodAllocation: number = 1250;
+  rentAllocation: number = 1250;
+  billsAllocation: number = 2000;
+  otherAllocation: number = 500;
 
-  currentInc: number = 0;
-  foodAllocation: number = 0;
-  rentAllocation: number = 0;
-  billsAllocation: number = 0;
-  otherAllocation: number = 0;
+  constructor() { }
 
-  constructor() {}
+  ngOnInit(): void {
+    // Any initialization logic can go here
+  }
 
-  editFoodAllocation(){}
-  editIncome(){}
-  logout(){}
-  editRentAllocation(){}
-  editBillsAllocation(){}
-  editOtherAllocation(){}
+  // Mock methods for editing allocations
+  editIncome() {
+    console.log('Edit Income clicked');
+    // Implement income editing logic
+  }
 
+  editFoodAllocation() {
+    console.log('Edit Food Allocation clicked');
+    // Implement food allocation editing logic
+  }
 
+  editRentAllocation() {
+    console.log('Edit Rent Allocation clicked');
+    // Implement rent allocation editing logic
+  }
+
+  editBillsAllocation() {
+    console.log('Edit Bills Allocation clicked');
+    // Implement bills allocation editing logic
+  }
+
+  editOtherAllocation() {
+    console.log('Edit Other Allocation clicked');
+    // Implement other allocation editing logic
+  }
+
+  logout() {
+    console.log('Logout clicked');
+    // Implement logout logic
+  }
 }
