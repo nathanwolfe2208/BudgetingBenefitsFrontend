@@ -55,7 +55,6 @@ export class GoalTrackingComponent implements OnInit {
 
   editGoal(goal: Goal) {
     // Implement goal editing logic
-    // Could open a modal or navigate to an edit page
   }
 
   deleteGoal(goal: Goal) {

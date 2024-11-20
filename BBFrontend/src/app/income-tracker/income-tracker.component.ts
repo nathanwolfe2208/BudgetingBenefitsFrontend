@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./income-tracker.component.css']
 })
 export class IncomeTrackerComponent implements OnInit {
-  // Mock data for current income
+  
   currentInc: number = 5000;
 
-  // Mock allocations for different categories
+  
   foodAllocation: number = 1250;
   rentAllocation: number = 1250;
   billsAllocation: number = 2000;
@@ -18,10 +18,10 @@ export class IncomeTrackerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // Any initialization logic can go here
+    
   }
 
-  // Mock methods for editing allocations
+  
   editIncome() {
     console.log('Edit Income clicked');
     // Implement income editing logic
