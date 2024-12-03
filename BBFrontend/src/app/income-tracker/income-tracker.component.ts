@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IncomeService } from '../Services/income.service';
+import { Strategy } from '../Services/income.service';
 
 @Component({
   selector: 'app-income-tracker',
@@ -6,49 +8,111 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./income-tracker.component.css']
 })
 export class IncomeTrackerComponent implements OnInit {
-  // Mock data for current income
-  currentInc: number = 5000;
+  strategy: Strategy | null = null;
+  
+  
+  editingField: string | null = null;
+  editedValue: number = 0;
 
-  // Mock allocations for different categories
-  foodAllocation: number = 1250;
-  rentAllocation: number = 1250;
-  billsAllocation: number = 2000;
-  otherAllocation: number = 500;
+  
+  currentInc: number = 0;
+  foodAllocation: number = 0;
+  rentAllocation: number = 0;
+  billsAllocation: number = 0;
+  otherAllocation: number = 0;
 
-  constructor() { }
+  constructor(
+    private incomeService: IncomeService,
+  ) { }
 
-  ngOnInit(): void {
-    // Any initialization logic can go here
+  async ngOnInit(): Promise<void> {
+    const userId = sessionStorage.getItem('id');
+    const token = sessionStorage.getItem('access_token');
+
+    if (token && userId) {
+      try {
+        this.strategy = await this.incomeService.getStrategybyID(Number(userId), token);
+        this.currentInc = this.strategy.totalIncome;
+        this.foodAllocation = this.strategy.foodAllocation;
+        this.rentAllocation = this.strategy.rentAllocation;
+        this.billsAllocation = this.strategy.billsAllocation;
+        this.otherAllocation = this.strategy.otherAllocation;
+      } catch (error) {
+        console.error('Failed to fetch user', error);
+      }
+    }
   }
 
-  // Mock methods for editing allocations
-  editIncome() {
-    console.log('Edit Income clicked');
-    // Implement income editing logic
+  
+  startEditing(field: string, currentValue: number) {
+    this.editingField = field;
+    this.editedValue = currentValue;
   }
 
-  editFoodAllocation() {
-    console.log('Edit Food Allocation clicked');
-    // Implement food allocation editing logic
+  
+  async saveEdit(field: string) {
+    if (!this.strategy) return;
+
+    try {
+      const userId = Number(sessionStorage.getItem('id'));
+      const token = sessionStorage.getItem('access_token');
+
+      if (!token) {
+        console.error('No access token');
+        return;
+      }
+
+      
+      const updatedStrategy = { ...this.strategy };
+
+      switch (field) {
+        case 'income':
+          updatedStrategy.totalIncome = this.editedValue;
+          this.currentInc = this.editedValue;
+          break;
+        case 'food':
+          updatedStrategy.foodAllocation = this.editedValue;
+          this.foodAllocation = this.editedValue;
+          break;
+        case 'rent':
+          updatedStrategy.rentAllocation = this.editedValue;
+          this.rentAllocation = this.editedValue;
+          break;
+        case 'bills':
+          updatedStrategy.billsAllocation = this.editedValue;
+          this.billsAllocation = this.editedValue;
+          break;
+        case 'other':
+          updatedStrategy.otherAllocation = this.editedValue;
+          this.otherAllocation = this.editedValue;
+          break;
+      }
+
+      
+      await this.incomeService.updateStrategy(userId, updatedStrategy, token);
+      
+      
+      this.cancelEdit();
+    } catch (error) {
+      console.error(`Failed to update ${field} allocation`, error);
+    }
   }
 
-  editRentAllocation() {
-    console.log('Edit Rent Allocation clicked');
-    // Implement rent allocation editing logic
+  
+  cancelEdit() {
+    this.editingField = null;
+    this.editedValue = 0;
   }
 
-  editBillsAllocation() {
-    console.log('Edit Bills Allocation clicked');
-    // Implement bills allocation editing logic
+
+  
+  get totalAllocated(): number {
+    return this.foodAllocation + this.rentAllocation + 
+           this.billsAllocation + this.otherAllocation;
   }
 
-  editOtherAllocation() {
-    console.log('Edit Other Allocation clicked');
-    // Implement other allocation editing logic
-  }
-
-  logout() {
-    console.log('Logout clicked');
-    // Implement logout logic
+  
+  get remainingAmount(): number {
+    return this.currentInc - this.totalAllocated;
   }
 }

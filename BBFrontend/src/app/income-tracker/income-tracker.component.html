@@ -9,36 +9,86 @@
           BudgetingBenefits
         </a>
       </h1>
-      <button class="text-white hover:text-blue-200" (click)="logout()">Logout</button>
+      <button class="text-white hover:text-blue-200">Logout</button>
     </div>
   </nav>
 
   <div class="container mx-auto p-6">
-    <div class="bg-white rounded-lg shadow-2xl p-6 mb-6 flex justify-between items-center">
-      <div>
-        <h2 class="text-2xl font-semibold text-blue-800 mb-2">
-          Monthly Income: ${{ currentInc }}
-        </h2>
-        <p class="text-gray-600">Track and manage your monthly budget</p>
+    <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-semibold text-blue-800 mb-2">Total Monthly Income</h2>
+          
+          <div *ngIf="editingField !== 'income'" class="flex items-center">
+            <p class="text-3xl font-bold text-green-600 mr-4">${{ currentInc | number:'1.2-2' }}</p>
+            <button 
+              (click)="startEditing('income', currentInc)"
+              class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Edit
+            </button>
+          </div>
+
+          <div *ngIf="editingField === 'income'" class="flex items-center space-x-2">
+            <input 
+              [(ngModel)]="editedValue"
+              type="number"
+              class="text-3xl font-bold text-green-600 border-b-2 border-green-500 w-full mr-2 focus:outline-none"
+            />
+            <button 
+              (click)="saveEdit('income')"
+              class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+            >
+              Save
+            </button>
+            <button 
+              (click)="cancelEdit()"
+              class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div>
+          <p class="text-gray-600">Remaining: ${{ remainingAmount | number:'1.2-2' }}</p>
+        </div>
       </div>
-      <button 
-        class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 transition duration-300 shadow-md" 
-        (click)="editIncome()">
-        Edit Income
-      </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-blue-800">Food Allocation</h3>
+        <h3 class="text-lg font-semibold text-blue-800 mb-2">Food</h3>
+        
+        <div *ngIf="editingField !== 'food'" class="flex justify-between items-center">
+          <p class="text-2xl font-bold text-green-600">${{ foodAllocation | number:'1.2-2' }}</p>
           <button 
-            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
-            (click)="editFoodAllocation()">
+            (click)="startEditing('food', foodAllocation)"
+            class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
             Edit
           </button>
         </div>
-        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ foodAllocation }}</p>
+
+        <div *ngIf="editingField === 'food'" class="flex items-center space-x-2">
+          <input 
+            [(ngModel)]="editedValue"
+            type="number"
+            class="text-2xl font-bold text-green-600 border-b-2 border-green-500 w-full mr-2 focus:outline-none"
+          />
+          <button 
+            (click)="saveEdit('food')"
+            class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Save
+          </button>
+          <button 
+            (click)="cancelEdit()"
+            class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            Cancel
+          </button>
+        </div>
+        
         <app-allocation-bar-graph 
           [allocation]="foodAllocation" 
           [totalIncome]="currentInc"
@@ -47,15 +97,38 @@
       </div>
 
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-blue-800">Rent Allocation</h3>
+        <h3 class="text-lg font-semibold text-blue-800 mb-2">Rent</h3>
+        
+        <div *ngIf="editingField !== 'rent'" class="flex justify-between items-center">
+          <p class="text-2xl font-bold text-green-600">${{ rentAllocation | number:'1.2-2' }}</p>
           <button 
-            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
-            (click)="editRentAllocation()">
+            (click)="startEditing('rent', rentAllocation)"
+            class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
             Edit
           </button>
         </div>
-        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ rentAllocation }}</p>
+
+        <div *ngIf="editingField === 'rent'" class="flex items-center space-x-2">
+          <input 
+            [(ngModel)]="editedValue"
+            type="number"
+            class="text-2xl font-bold text-green-600 border-b-2 border-green-500 w-full mr-2 focus:outline-none"
+          />
+          <button 
+            (click)="saveEdit('rent')"
+            class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Save
+          </button>
+          <button 
+            (click)="cancelEdit()"
+            class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            Cancel
+          </button>
+        </div>
+        
         <app-allocation-bar-graph 
           [allocation]="rentAllocation" 
           [totalIncome]="currentInc"
@@ -64,32 +137,78 @@
       </div>
 
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-blue-800">Bills Allocation</h3>
+        <h3 class="text-lg font-semibold text-blue-800 mb-2">Bills</h3>
+        
+        <div *ngIf="editingField !== 'bills'" class="flex justify-between items-center">
+          <p class="text-2xl font-bold text-green-600">${{ billsAllocation | number:'1.2-2' }}</p>
           <button 
-            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
-            (click)="editBillsAllocation()">
+            (click)="startEditing('bills', billsAllocation)"
+            class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
             Edit
           </button>
         </div>
-        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ billsAllocation }}</p>
+
+        <div *ngIf="editingField === 'bills'" class="flex items-center space-x-2">
+          <input 
+            [(ngModel)]="editedValue"
+            type="number"
+            class="text-2xl font-bold text-green-600 border-b-2 border-green-500 w-full mr-2 focus:outline-none"
+          />
+          <button 
+            (click)="saveEdit('bills')"
+            class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Save
+          </button>
+          <button 
+            (click)="cancelEdit()"
+            class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            Cancel
+          </button>
+        </div>
+        
         <app-allocation-bar-graph 
           [allocation]="billsAllocation" 
           [totalIncome]="currentInc"
           [category]="'Bills'">
-        </app-allocation-bar-graph>
+        </ app-allocation-bar-graph>
       </div>
 
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-blue-800">Other Allocation</h3>
+        <h3 class="text-lg font-semibold text-blue-800 mb-2">Other</h3>
+        
+        <div *ngIf="editingField !== 'other'" class="flex justify-between items-center">
+          <p class="text-2xl font-bold text-green-600">${{ otherAllocation | number:'1.2-2' }}</p>
           <button 
-            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
-            (click)="editOtherAllocation()">
+            (click)="startEditing('other', otherAllocation)"
+            class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          >
             Edit
           </button>
         </div>
-        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ otherAllocation }}</p>
+
+        <div *ngIf="editingField === 'other'" class="flex items-center space-x-2">
+          <input 
+            [(ngModel)]="editedValue"
+            type="number"
+            class="text-2xl font-bold text-green-600 border-b-2 border-green-500 w-full mr-2 focus:outline-none"
+          />
+          <button 
+            (click)="saveEdit('other')"
+            class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Save
+          </button>
+          <button 
+            (click)="cancelEdit()"
+            class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            Cancel
+          </button>
+        </div>
+        
         <app-allocation-bar-graph 
           [allocation]="otherAllocation" 
           [totalIncome]="currentInc"
