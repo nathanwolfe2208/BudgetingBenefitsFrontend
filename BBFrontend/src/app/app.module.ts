@@ -11,6 +11,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './login/auth/auth.interceptor';
 import { DashComponent } from './dash/dash.component';
 import { IncomeTrackerComponent } from './income-tracker/income-tracker.component';
+import { AllocationBarGraphComponent } from './income-tracker/allocation-bar-graph/allocation-bar-graph.component';
+import { GoalTrackingComponent } from './goal-tracking/goal-tracking.component';
+import { GoalBarGraphComponent } from './goal-tracking/goal-bar-graph/goal-bar-graph.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { IncomeTrackerComponent } from './income-tracker/income-tracker.componen
     AboutComponent,
     LoginComponent,
     DashComponent,
-    IncomeTrackerComponent
+    IncomeTrackerComponent,
+    AllocationBarGraphComponent,
+    GoalTrackingComponent,
+    GoalBarGraphComponent
   ],
   imports: [
     BrowserModule,

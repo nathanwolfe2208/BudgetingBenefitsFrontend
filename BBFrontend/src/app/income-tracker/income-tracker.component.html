@@ -1,111 +1,94 @@
 <div class="min-h-screen bg-gray-100">
   <nav class="bg-blue-600 p-4">
     <div class="container mx-auto flex justify-between items-center">
-      <a routerLink="/dash" class="text-white text-2xl font-bold">Budgeting Benefits</a>
+      <h1 class="text-white text-2xl font-bold">BudgetingBenefits</h1>
       <button class="text-white hover:text-blue-200" (click)="logout()">Logout</button>
     </div>
   </nav>
-  
-
-  <div class="container mx-auto p-6"></div>
-  <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
-    <h2 class="text-2xl font-semibold text-blue-800 mb-2">Select Month and Year</h2>
-    <select [(ngModel)]="selectedMonth" (change)="resetAllocations()" class="border rounded p-2 mr-2">
-      <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-    </select>
-    <select [(ngModel)]="selectedYear" (change)="resetAllocations()" class="border rounded p-2">
-      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-    </select>
-  </div>
-
 
   <div class="container mx-auto p-6">
-    <div class="bg-white rounded-lg shadow-2xl p-6 mb-6">
-      <h2 class="text-2xl font-semibold text-blue-800 mb-2">Monthly Income for {{ selectedMonth }}: ${{ currentInc }}</h2>
-      <h3 class="text-xl font-semibold text-green-600 mt-4">Remaining Budget: ${{ remainingBudget }}</h3>
+    <div class="bg-white rounded-lg shadow-2xl p-6 mb-6 flex justify-between items-center">
+      <div>
+        <h2 class="text-2xl font-semibold text-blue-800 mb-2">
+          Monthly Income: ${{ currentInc }}
+        </h2>
+        <p class="text-gray-600">Track and manage your monthly budget</p>
+      </div>
+      <button 
+        class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2 transition duration-300 shadow-md" 
+        (click)="editIncome()">
+        Edit Income
+      </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <h3 class="text-lg font-semibold text-blue-800 mb-2">Food Allocation</h3>
-        <p class="text-2xl font-bold text-blue-600">$ {{ foodAllocation }}</p>
-        <input *ngIf="isEditingFood" type="number" [(ngModel)]="tempFoodAllocation" class="border p-2" />
-        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="isEditingFood ? updateFoodAllocation() : editFoodAllocation()">
-          {{ isEditingFood ? 'Save' : 'Edit' }}
-        </button>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-blue-800">Food Allocation</h3>
+          <button 
+            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
+            (click)="editFoodAllocation()">
+            Edit
+          </button>
+        </div>
+        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ foodAllocation }}</p>
+        <app-allocation-bar-graph 
+          [allocation]="foodAllocation" 
+          [totalIncome]="currentInc"
+          [category]="'Food'">
+        </app-allocation-bar-graph>
       </div>
 
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <h3 class="text-lg font-semibold text-blue-800 mb-2">Rent Allocation</h3>
-        <p class="text-2xl font-bold text-blue-600">$ {{ rentAllocation }}</p>
-        <input *ngIf="isEditingRent" type="number" [(ngModel)]="tempRentAllocation" class="border p-2" />
-        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="isEditingRent ? updateRentAllocation() : editRentAllocation()">
-          {{ isEditingRent ? 'Save' : 'Edit' }}
-        </button>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-blue-800">Rent Allocation</h3>
+          <button 
+            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
+            (click)="editRentAllocation()">
+            Edit
+          </button>
+        </div>
+        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ rentAllocation }}</p>
+        <app-allocation-bar-graph 
+          [allocation]="rentAllocation" 
+          [totalIncome]="currentInc"
+          [category]="'Rent'">
+        </app-allocation-bar-graph>
       </div>
 
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <h3 class="text-lg font-semibold text-blue-800 mb-2">Bills Allocation</h3>
-        <p class="text-2xl font-bold text-blue-600">$ {{ billsAllocation }}</p>
-        <input *ngIf="isEditingBills" type="number" [(ngModel)]="tempBillsAllocation" class="border p-2" />
-        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="isEditingBills ? updateBillsAllocation() : editBillsAllocation()">
-          {{ isEditingBills ? 'Save' : 'Edit' }}
-        </button>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-blue-800">Bills Allocation</h3>
+          <button 
+            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
+            (click)="editBillsAllocation()">
+            Edit
+          </button>
+        </div>
+        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ billsAllocation }}</p>
+        <app-allocation-bar-graph 
+          [allocation]="billsAllocation" 
+          [totalIncome]="currentInc"
+          [category]="'Bills'">
+        </app-allocation-bar-graph>
       </div>
 
       <div class="bg-white rounded-lg shadow-2xl p-6">
-        <h3 class="text-lg font-semibold text-blue-800 mb-2">Other Allocation</h3>
-        <p class="text-2xl font-bold text-blue-600">$ {{ otherAllocation }}</p>
-        <input *ngIf="isEditingOther" type="number" [(ngModel)]="tempOtherAllocation" class="border p-2" />
-        <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-2 text-center transition duration-300 shadow-2xl" (click)="isEditingOther ? updateOtherAllocation() : editOtherAllocation()">
-          {{ isEditingOther ? 'Save' : 'Edit' }}
-        </button>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-blue-800">Other Allocation</h3>
+          <button 
+            class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-1 text-sm transition duration-300" 
+            (click)="editOtherAllocation()">
+            Edit
+          </button>
+        </div>
+        <p class="text-2xl font-bold text-blue-600 mb-4">$ {{ otherAllocation }}</p>
+        <app-allocation-bar-graph 
+          [allocation]="otherAllocation" 
+          [totalIncome]="currentInc"
+          [category]="'Other'">
+        </app-allocation-bar-graph>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="p-4">
-  <!-- Logout button -->
-  <button class="text-white hover:text-blue-200" (click)="logout()">Logout</button>
-
-  <!-- Food allocation field -->
-  <div class="mb-4">
-    <label>Food Allocation:</label>
-    <input *ngIf="isEditingFood" type="number" [(ngModel)]="tempFoodAllocation" class="border p-2" />
-    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
-            (click)="isEditingFood ? updateFoodAllocation() : editFoodAllocation()">
-      {{ isEditingFood ? 'Save' : 'Edit' }}
-    </button>
-  </div>
-
-  <!-- Rent allocation field -->
-  <div class="mb-4">
-    <label>Rent Allocation:</label>
-    <input *ngIf="isEditingRent" type="number" [(ngModel)]="tempRentAllocation" class="border p-2" />
-    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
-            (click)="isEditingRent ? updateRentAllocation() : editRentAllocation()">
-      {{ isEditingRent ? 'Save' : 'Edit' }}
-    </button>
-  </div>
-
-  <!-- Bills allocation field -->
-  <div class="mb-4">
-    <label>Bills Allocation:</label>
-    <input *ngIf="isEditingBills" type="number" [(ngModel)]="tempBillsAllocation" class="border p-2" />
-    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
-            (click)="isEditingBills ? updateBillsAllocation() : editBillsAllocation()">
-      {{ isEditingBills ? 'Save' : 'Edit' }}
-    </button>
-  </div>
-
-  <!-- Other allocation field -->
-  <div class="mb-4">
-    <label>Other Allocation:</label>
-    <input *ngIf="isEditingOther" type="number" [(ngModel)]="tempOtherAllocation" class="border p-2" />
-    <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-300 shadow-2xl"
-            (click)="isEditingOther ? updateOtherAllocation() : editOtherAllocation()">
-      {{ isEditingOther ? 'Save' : 'Edit' }}
-    </button>
   </div>
 </div>
