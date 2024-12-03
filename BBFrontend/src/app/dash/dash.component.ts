@@ -1,49 +1,77 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { UserService, User, MonthlyIncome } from '../Services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../Services/user.service';
 import { AuthService } from '../login/auth/auth.service';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-
+import { User, UpdateUserDto } from '../Services/user.service';
 
 @Component({
   selector: 'app-dash',
   templateUrl: './dash.component.html',
-  styleUrl: './dash.component.css'
+  styleUrls: ['./dash.component.css']
 })
-export class DashComponent implements OnInit{
-
-  constructor(private userService: UserService, private authService: AuthService, @Inject(PLATFORM_ID) private platformId: Object) {}
-
+export class DashComponent implements OnInit {
   user: User | null = null;
-  income: MonthlyIncome | null = null;
-  currentInc: number = 0;
+  
+  // Editing states
+  editingField: 'savings' | 'monthlyInc' | 'emgfund' | 'debt' | null = null;
+  editedValue: number = 0;
+
+  constructor(
+    private userService: UserService, 
+    private authService: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-      
-      const userId = sessionStorage.getItem('id');
-      const token = sessionStorage.getItem('access_token');
-      if(token && userId){
+    const userId = sessionStorage.getItem('id');
+    const token = sessionStorage.getItem('access_token');
+    
+    if (token && userId) {
+      try {
         this.user = await this.userService.getUserById(Number(userId), token);
-        console.log(this.user);
-        this.income = this.user.monthlyInc
-        this.currentInc = this.income[getYM()];
-        console.log(this.income);
-        
-        
+      } catch (error) {
+        console.error('Failed to fetch user', error);
       }
-        
+    }
   }
 
   logout(): void {
     this.authService.logout();
   }
 
-}
+  startEditing(field: 'savings' | 'monthlyInc' | 'emgfund' | 'debt'): void {
+    if (this.user) {
+      this.editingField = field;
+      this.editedValue = this.user[field];
+    }
+  }
 
+  async saveEdit(field: 'savings' | 'monthlyInc' | 'emgfund' | 'debt'): Promise<void> {
+    if (!this.user || !this.editingField) return;
+  
+    try {
+      const token = sessionStorage.getItem('access_token');
+      if (!token) {
+        throw new Error('No authentication token');
+      }
+  
+      const updateDto: UpdateUserDto = {
+        [field]: this.editedValue
+      };
+  
+      const updatedUser = await this.userService.updateUser(
+        this.user.id.toString(), 
+        updateDto, 
+        token
+      );
+  
+      this.user = updatedUser;
+      
+      this.editingField = null;
+    } catch (error) {
+      console.error('Failed to update user', error);
+    }
+  }
 
-function getYM(): string {
-  const dateObj = new Date();
-  const year = dateObj.getUTCFullYear();
-  const month = dateObj.getUTCMonth() + 1;
-  console.log(`${year}-${month}`)
-  return `${year}-${month}`
+  cancelEdit(): void {
+    this.editingField = null;
+  }
 }
