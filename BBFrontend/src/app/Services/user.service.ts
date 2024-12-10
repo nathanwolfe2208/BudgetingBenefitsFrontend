@@ -5,11 +5,17 @@ import { firstValueFrom, Observable } from 'rxjs';
 export interface User {
   id: number;
   name: string;
-  monthlyInc: MonthlyIncome;
+  monthlyInc: number;
+  debt: number;
+  emgfund: number;
+  savings: number;
 }
 
-export interface MonthlyIncome {
-  [key: string]: number;
+export interface UpdateUserDto {
+  savings?: number;
+  monthlyInc?: number;
+  emgfund?: number;
+  debt?: number;
 }
 
 
@@ -29,6 +35,15 @@ export class UserService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }) }));
+  }
+
+  async updateUser(
+    userId: string, userData: Partial<UpdateUserDto>, token: string): Promise<User> {
+    return firstValueFrom(
+      this.http.patch<User>(`${this.apiUrl}/${userId}`, userData, { headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }) }));
   }
 
 
