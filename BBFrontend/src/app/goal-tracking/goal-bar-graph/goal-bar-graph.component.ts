@@ -11,7 +11,7 @@ export class GoalBarGraphComponent  implements OnInit, OnChanges, OnDestroy {
   @Input() totalIncome: number = 0;
   @Input() category: string = '';
 
-  @ViewChild('goalChart', { static: false })
+  @ViewChild('allocationChart', { static: false })
   chartCanvas!: ElementRef;
   
   chart: Chart | null = null;
@@ -53,13 +53,22 @@ export class GoalBarGraphComponent  implements OnInit, OnChanges, OnDestroy {
       type: 'bar' as ChartType,
       data: {
         labels: [this.category],
-        datasets: [{
-          label: this.category,
-          data: [this.allocation],
-          backgroundColor: ['#2563eb'],
-          borderWidth: 0,
-          borderRadius: 9999
-        }]
+        datasets: [
+          {
+            label: this.category,
+            data: [this.allocation],
+            backgroundColor: ['#2563eb'],
+            borderWidth: 0,
+            borderRadius: 9999
+          },
+          {
+            label: 'Remaining',
+            data: [remainingAmount],
+            backgroundColor: ['#e5e7eb'],
+            borderWidth: 0,
+            borderRadius: 9999
+          }
+        ]
       },
       options: {
         indexAxis: 'x',
@@ -71,32 +80,16 @@ export class GoalBarGraphComponent  implements OnInit, OnChanges, OnDestroy {
           },
           tooltip: {
             callbacks: {
-              label: () => {
-                return `${this.category}: $${this.allocation.toFixed(2)} (${this.allocationPercentage.toFixed(2)}%)`
+              label: (context) => {
+                if (context.datasetIndex === 0) {
+                  return `${this.category}: $${this.allocation.toFixed(2)} (${this.allocationPercentage.toFixed(2)}%)`;
+                }
+                return `Remaining: $${remainingAmount.toFixed(2)}`;
               }
             }
           }
         },
-        scales: {
-          x: {
-            grid: {
-              display: false
-            },
-            ticks: {
-              display: false
-            }
-          },
-          y: {
-            beginAtZero: true,
-            max: this.totalIncome,
-            grid: {
-              display: false
-            },
-            ticks: {
-              display: false
-            }
-          }
-        }
+        scales: this.getScaleOptions()
       }
     };
 
@@ -107,6 +100,33 @@ export class GoalBarGraphComponent  implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  private getScaleOptions(): { 
+    x: ScaleOptions; 
+    y: ScaleOptions 
+  } {
+    return {
+      x: {
+        stacked: true,
+        grid: {
+          display: false
+        },
+        ticks: {
+          display: false
+        }
+      },
+      y: {
+        stacked: true,
+        beginAtZero: true,
+        max: this.totalIncome,
+        grid: {
+          display: false
+        },
+        ticks: {
+          display: false
+        }
+      }
+    };
+  }
 
   private updateChart() {
     if (this.chart) {
